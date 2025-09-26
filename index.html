@@ -7,138 +7,216 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: #000;
       color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       overflow-x: hidden;
-      background-image: linear-gradient(to right, #000 1px, transparent 1px), 
-                        linear-gradient(to bottom, #000 1px, transparent 1px);
-      background-size: 40px 40px;
     }
 
-    .moving-text {
+    /* Background grid animasi */
+    body::before {
+      content: "";
       position: fixed;
-      top: 10px;
-      left: 0;
-      width: 100%;
-      font-size: 20px;
-      font-weight: bold;
-      color: #0ff;
-      text-align: center;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-      animation: moveText 10s linear infinite;
-      white-space: nowrap;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, rgba(0,255,255,0.2) 1px, transparent 1px),
+                  linear-gradient(rgba(0,255,255,0.2) 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: moveGrid 10s linear infinite;
+      z-index: -2;
+    }
+    @keyframes moveGrid {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 40px 40px, 40px 40px; }
     }
 
-    @keyframes moveText {
-      0% { transform: translateX(100%); }
+    /* Partikel neon */
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      background: cyan;
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 6s infinite ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      50% { transform: translateY(-60px) scale(1.2); opacity: 0.4; }
+      100% { transform: translateY(0) scale(1); opacity: 0.8; }
+    }
+
+    /* Marquee teks atas */
+    .marquee {
+      position: fixed;
+      top: 5px; width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: bold;
+      color: cyan;
+      text-shadow: 0 0 8px cyan, 0 0 16px #0ff;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 10s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
       100% { transform: translateX(-100%); }
     }
 
-    .container {
-      background: rgba(10, 10, 10, 0.9);
+    /* Card container dengan border neon */
+    .card {
+      max-width: 360px;
+      margin: 80px auto;
       padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 30px rgba(0, 200, 255, 0.8);
+      border-radius: 16px;
+      background: rgba(10, 10, 20, 0.95);
       text-align: center;
-      max-width: 400px;
-      width: 90%;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      border-radius: 18px;
+      background: linear-gradient(270deg, cyan, magenta, blue, cyan);
+      background-size: 600% 600%;
+      animation: borderGlow 8s linear infinite;
+      z-index: -1;
+    }
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    .container img {
-      width: 100px;
-      height: 100px;
+    .logo {
+      width: 100px; height: 100px;
       border-radius: 50%;
       margin-bottom: 15px;
-      box-shadow: 0 0 20px #0ff;
+      box-shadow: 0 0 20px cyan;
     }
 
     h2 {
-      color: #0ff;
-      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+      color: cyan;
+      text-shadow: 0 0 10px cyan, 0 0 20px cyan;
     }
+
+    .tagline {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    /* Efek scanning teks */
+    .scanning {
+      font-size: 12px;
+      color: lime;
+      overflow: hidden;
+      border-right: 2px solid lime;
+      white-space: nowrap;
+      margin: 0 auto 20px;
+      width: 0;
+      animation: typing 3s steps(30, end) forwards, blink .75s step-end infinite;
+    }
+    @keyframes typing { to { width: 200px; } }
+    @keyframes blink { 50% { border-color: transparent; } }
 
     .label {
+      font-weight: bold;
       margin: 10px 0 5px;
-      font-weight: bold;
-      text-align: center;
+      color: cyan;
+      text-shadow: 0 0 8px cyan;
     }
 
-    .number-box {
-      background: #111;
+    .input-box {
+      background: transparent;
+      border: 1px solid cyan;
+      border-radius: 8px;
       padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 8px;
-      color: #0ff;
-      font-weight: bold;
-      border: 1px solid #0ff;
+      color: cyan;
+      width: 100%;
+      margin-bottom: 16px;
       text-align: center;
+      transition: 0.3s;
+    }
+    .input-box:hover {
+      box-shadow: 0 0 10px cyan;
     }
 
-    .copy-btn {
+    .link {
       display: block;
-      margin: 5px auto 15px;
-      padding: 8px 20px;
-      background: #0ff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #000;
-      text-shadow: 0 0 5px #fff;
-      box-shadow: 0 0 10px #0ff;
-    }
-
-    .btn {
-      display: block;
-      margin: 10px 0;
-      padding: 12px;
-      border-radius: 10px;
+      margin: 12px 0;
       font-weight: bold;
       text-decoration: none;
+      padding: 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    /* Animasi pulse neon */
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+      50% { text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+    }
+
+    .wa {
       color: #fff;
-    }
-
-    .wa-btn {
       background: #25d366;
-      box-shadow: 0 0 10px #25d366;
+      text-shadow: 0 0 8px #25d366;
+      animation: pulse 2s infinite;
     }
-
-    .tg-btn {
+    .wa:hover {
+      box-shadow: 0 0 20px #25d366;
+    }
+    .tg {
+      color: #fff;
       background: #0088cc;
-      box-shadow: 0 0 10px #0088cc;
+      text-shadow: 0 0 8px #0088cc;
+      animation: pulse 2s infinite;
+      animation-delay: 1s;
+    }
+    .tg:hover {
+      box-shadow: 0 0 20px #0088cc;
     }
   </style>
 </head>
 <body>
-  <!-- 🔥 Teks bergerak -->
-  <div class="moving-text">⚡ PAYMENT ZYXXENNN ⚡</div>
+  <!-- Teks Marquee -->
+  <div class="marquee"><span>⚡ PAYMENT ZYXXENNN ⚡ PAYMENT ZYXXENNN ⚡</span></div>
 
-  <div class="container">
-    <img src="https://via.placeholder.com/100" alt="Logo">
-    <h2>⚡ Zyxxennn Payment</h2>
-
-    <div class="label">Dana</div>
-    <div class="number-box">081222931196</div>
-    <button class="copy-btn" onclick="copyText('081222931196')">Copy</button>
-
-    <div class="label">GoPay</div>
-    <div class="number-box">081222931196</div>
-    <button class="copy-btn" onclick="copyText('081222931196')">Copy</button>
-
-    <a href="https://wa.me/6281280305494" class="btn wa-btn">📱 WhatsApp</a>
-    <a href="https://t.me/alwayzrymz" class="btn tg-btn">✉️ Telegram</a>
+  <!-- Partikel neon -->
+  <div class="particles">
+    <div class="particle" style="left:10%;top:80%;animation-delay:0s;"></div>
+    <div class="particle" style="left:30%;top:60%;animation-delay:1s;"></div>
+    <div class="particle" style="left:70%;top:40%;animation-delay:2s;"></div>
+    <div class="particle" style="left:50%;top:20%;animation-delay:3s;"></div>
+    <div class="particle" style="left:90%;top:70%;animation-delay:4s;"></div>
   </div>
 
-  <script>
-    function copyText(number) {
-      navigator.clipboard.writeText(number);
-      alert("Nomor " + number + " berhasil disalin!");
-    }
-  </script>
+  <!-- Card -->
+  <div class="card">
+    <img src="https://i.ibb.co/5T3zYvD/your-logo.png" alt="logo" class="logo">
+    <h2>⚡ Zyxxennn Payment</h2>
+    <div class="tagline">Fast • Secure • Trusted Payment Gateway</div>
+    <div class="scanning">[ SCANNING SYSTEM READY... ]</div>
+
+    <div class="label">Dana</div>
+    <div class="input-box">081222931196</div>
+
+    <div class="label">GoPay</div>
+    <div class="input-box">081222931196</div>
+
+    <a href="https://wa.me/6281280305494" class="link wa">📱 WhatsApp</a>
+    <a href="https://t.me/alwayzrymz" class="link tg">✉️ Telegram</a>
+  </div>
 </body>
 </html>
