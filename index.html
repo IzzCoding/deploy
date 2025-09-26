@@ -1,198 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment</title>
+  <title>Zyxxennn Payment</title>
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", sans-serif;
+      font-family: Arial, sans-serif;
       background: #000;
-      color: #e6edf3;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
+      background-image: linear-gradient(to right, #000 1px, transparent 1px), 
+                        linear-gradient(to bottom, #000 1px, transparent 1px);
+      background-size: 40px 40px;
     }
 
-    /* Grid Background */
-    body::before {
-      content: "";
+    .moving-text {
       position: fixed;
-      top: 0;
+      top: 10px;
       left: 0;
-      width: 200%;
-      height: 200%;
-      background-size: 40px 40px;
-      background-image: 
-        linear-gradient(to right, rgba(0, 255, 255, 0.2) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
-      animation: moveGrid 20s linear infinite;
-      z-index: 0;
+      width: 100%;
+      font-size: 20px;
+      font-weight: bold;
+      color: #0ff;
+      text-align: center;
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+      animation: moveText 10s linear infinite;
+      white-space: nowrap;
     }
-    @keyframes moveGrid {
-      from { transform: translate(0, 0); }
-      to { transform: translate(-40px, -40px); }
+
+    @keyframes moveText {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
 
     .container {
-      position: relative;
-      background: #0d1117;
-      border-radius: 20px;
+      background: rgba(10, 10, 10, 0.9);
       padding: 30px;
-      width: 360px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.8);
       text-align: center;
-      box-shadow: 0 0 30px rgba(0, 200, 255, 0.7);
-      z-index: 1;
+      max-width: 400px;
+      width: 90%;
     }
 
-    .logo {
+    .container img {
       width: 100px;
       height: 100px;
       border-radius: 50%;
-      object-fit: cover;
       margin-bottom: 15px;
-      border: 3px solid #0ea5ff;
-      box-shadow: 0 0 20px #0ea5ff;
-      animation: pulse 2s infinite alternate;
+      box-shadow: 0 0 20px #0ff;
     }
 
-    h1 {
-      margin-bottom: 25px;
-      font-size: 1.6rem;
+    h2 {
+      color: #0ff;
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+    }
+
+    .label {
+      margin: 10px 0 5px;
       font-weight: bold;
-      font-style: italic;
-      color: #0ea5ff;
-      text-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff;
-      animation: pulseText 2s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
-      100% { box-shadow: 0 0 25px #0ea5ff, 0 0 40px #0ea5ff; }
-    }
-    @keyframes pulseText {
-      0% { text-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
-      100% { text-shadow: 0 0 20px #0ea5ff, 0 0 40px #0ea5ff; }
-    }
-
-    .pay-item {
-      margin: 25px 0;
       text-align: center;
     }
 
-    .pay-label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #7dd3fc;
-      text-shadow: 0 0 8px #0ea5ff;
-      text-align: center;
-    }
-
-    .pay-number {
-      padding: 10px 14px;
+    .number-box {
+      background: #111;
+      padding: 10px;
       border-radius: 8px;
-      border: 1px solid #0ea5ff;
-      background: rgba(14, 165, 255, 0.08);
-      font-family: "Courier New", monospace;
-      font-weight: 600;
-      color: #0ea5ff;
-      text-shadow: 0 0 6px #0ea5ff;
-      user-select: all;
+      margin-bottom: 8px;
+      color: #0ff;
+      font-weight: bold;
+      border: 1px solid #0ff;
       text-align: center;
-      margin-bottom: 10px;
     }
 
     .copy-btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
-      background: #0ea5ff;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .2s ease;
-      box-shadow: 0 0 10px #0ea5ff;
-    }
-    .copy-btn:hover {
-      background: #0284c7;
-      transform: translateY(-2px);
-      box-shadow: 0 0 15px #0284c7;
-    }
-
-    .copy-msg {
-      margin-top: 6px;
-      font-size: 0.8rem;
-      color: #7dd3fc;
-      display: none;
-    }
-
-    .social-btn {
       display: block;
-      margin: 16px auto;
-      padding: 14px;
+      margin: 5px auto 15px;
+      padding: 8px 20px;
+      background: #0ff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #000;
+      text-shadow: 0 0 5px #fff;
+      box-shadow: 0 0 10px #0ff;
+    }
+
+    .btn {
+      display: block;
+      margin: 10px 0;
+      padding: 12px;
       border-radius: 10px;
-      font-weight: 600;
-      color: #fff;
+      font-weight: bold;
       text-decoration: none;
-      transition: all .2s ease;
-      box-shadow: 0 0 15px rgba(0,0,0,0.6);
-      width: 90%;
+      color: #fff;
     }
+
     .wa-btn {
-      background: #25D366;
-      box-shadow: 0 0 20px #25D366;
+      background: #25d366;
+      box-shadow: 0 0 10px #25d366;
     }
-    .wa-btn:hover {
-      background: #1ebe5d;
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px #1ebe5d;
-    }
+
     .tg-btn {
       background: #0088cc;
-      box-shadow: 0 0 20px #0088cc;
-    }
-    .tg-btn:hover {
-      background: #0077b6;
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px #0077b6;
+      box-shadow: 0 0 10px #0088cc;
     }
   </style>
 </head>
 <body>
+  <!-- 🔥 Teks bergerak -->
+  <div class="moving-text">⚡ PAYMENT ZYXXENNN ⚡</div>
+
   <div class="container">
-    <img src="https://files.catbox.moe/fr5p11.jpg" alt="Logo" class="logo">
-    <h1>⚡ <i>Zyxxennn Payment</i></h1>
+    <img src="https://via.placeholder.com/100" alt="Logo">
+    <h2>⚡ Zyxxennn Payment</h2>
 
-    <div class="pay-item">
-      <span class="pay-label">Dana</span>
-      <div class="pay-number">081222931196</div>
-      <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
-      <div class="copy-msg">📋 Copied!</div>
-    </div>
+    <div class="label">Dana</div>
+    <div class="number-box">081222931196</div>
+    <button class="copy-btn" onclick="copyText('081222931196')">Copy</button>
 
-    <div class="pay-item">
-      <span class="pay-label">GoPay</span>
-      <div class="pay-number">081222931196</div>
-      <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
-      <div class="copy-msg">📋 Copied!</div>
-    </div>
+    <div class="label">GoPay</div>
+    <div class="number-box">081222931196</div>
+    <button class="copy-btn" onclick="copyText('081222931196')">Copy</button>
 
-    <a href="https://wa.me/6281280305494" class="social-btn wa-btn">📲 WhatsApp: 081280305494</a>
-    <a href="https://t.me/alwayzrymz" class="social-btn tg-btn">📩 Telegram: t.me/alwayzrymz</a>
+    <a href="https://wa.me/6281280305494" class="btn wa-btn">📱 WhatsApp</a>
+    <a href="https://t.me/alwayzrymz" class="btn tg-btn">✉️ Telegram</a>
   </div>
 
   <script>
-    function copyText(text, btn) {
-      navigator.clipboard.writeText(text).then(() => {
-        let msg = btn.nextElementSibling;
-        msg.style.display = "block";
-        setTimeout(() => { msg.style.display = "none"; }, 1500);
-      });
+    function copyText(number) {
+      navigator.clipboard.writeText(number);
+      alert("Nomor " + number + " berhasil disalin!");
     }
   </script>
 </body>
