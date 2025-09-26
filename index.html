@@ -71,7 +71,7 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Card container dengan border neon */
+    /* Card container */
     .card {
       max-width: 360px;
       margin: 80px auto;
@@ -144,12 +144,34 @@
       padding: 10px;
       color: cyan;
       width: 100%;
-      margin-bottom: 16px;
       text-align: center;
-      transition: 0.3s;
+      margin-bottom: 5px;
     }
-    .input-box:hover {
-      box-shadow: 0 0 10px cyan;
+
+    .copy-btn {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      background: cyan;
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover {
+      background: #0ff;
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .notif {
+      font-size: 12px;
+      color: lime;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      margin-bottom: 12px;
+      height: 14px;
     }
 
     .link {
@@ -174,9 +196,6 @@
       text-shadow: 0 0 8px #25d366;
       animation: pulse 2s infinite;
     }
-    .wa:hover {
-      box-shadow: 0 0 20px #25d366;
-    }
     .tg {
       color: #fff;
       background: #0088cc;
@@ -184,16 +203,11 @@
       animation: pulse 2s infinite;
       animation-delay: 1s;
     }
-    .tg:hover {
-      box-shadow: 0 0 20px #0088cc;
-    }
   </style>
 </head>
 <body>
-  <!-- Teks Marquee -->
-  <div class="marquee"><span>⚡ PAYMENT ZYXXENNN ⚡ PAYMENT ZYXXENNN ⚡</span></div>
+  <div class="marquee"><span>⚡ PAYMENT ZYXXENNN ⚡</span></div>
 
-  <!-- Partikel neon -->
   <div class="particles">
     <div class="particle" style="left:10%;top:80%;animation-delay:0s;"></div>
     <div class="particle" style="left:30%;top:60%;animation-delay:1s;"></div>
@@ -202,7 +216,6 @@
     <div class="particle" style="left:90%;top:70%;animation-delay:4s;"></div>
   </div>
 
-  <!-- Card -->
   <div class="card">
     <img src="https://i.ibb.co/5T3zYvD/your-logo.png" alt="logo" class="logo">
     <h2>⚡ Zyxxennn Payment</h2>
@@ -210,13 +223,29 @@
     <div class="scanning">[ SCANNING SYSTEM READY... ]</div>
 
     <div class="label">Dana</div>
-    <div class="input-box">081222931196</div>
+    <div class="input-box" id="dana">081222931196</div>
+    <button class="copy-btn" onclick="copyText('dana','notif-dana')">Copy Dana</button>
+    <div class="notif" id="notif-dana"></div>
 
     <div class="label">GoPay</div>
-    <div class="input-box">081222931196</div>
+    <div class="input-box" id="gopay">081222931196</div>
+    <button class="copy-btn" onclick="copyText('gopay','notif-gopay')">Copy GoPay</button>
+    <div class="notif" id="notif-gopay"></div>
 
     <a href="https://wa.me/6281280305494" class="link wa">📱 WhatsApp</a>
     <a href="https://t.me/alwayzrymz" class="link tg">✉️ Telegram</a>
   </div>
+
+  <script>
+    function copyText(id, notifId) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        let notif = document.getElementById(notifId);
+        notif.textContent = "✅ Copied!";
+        notif.style.opacity = "1";
+        setTimeout(() => { notif.style.opacity = "0"; }, 2000);
+      });
+    }
+  </script>
 </body>
 </html>
