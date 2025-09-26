@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment - Neon Cyberpunk</title>
+  <title>Payment</title>
   <style>
     body {
       margin: 0;
@@ -17,34 +17,35 @@
       overflow: hidden;
     }
 
-    /* Background Grid Animasi */
+    /* Grid Background bergerak */
     body::before {
       content: "";
-      position: absolute;
-      top: 0; left: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 200%;
       height: 200%;
+      background-size: 40px 40px;
       background-image: 
-        linear-gradient(90deg, rgba(14,165,255,0.2) 1px, transparent 1px),
-        linear-gradient(rgba(14,165,255,0.2) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: moveGrid 10s linear infinite;
+        linear-gradient(to right, rgba(0, 255, 255, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 255, 0.2) 1px, transparent 1px);
+      animation: moveGrid 20s linear infinite;
+      z-index: 0;
     }
 
     @keyframes moveGrid {
-      from { transform: translate(0,0); }
-      to { transform: translate(-50px,-50px); }
+      from { transform: translate(0, 0); }
+      to { transform: translate(-40px, -40px); }
     }
 
     .container {
       position: relative;
-      background: rgba(20, 20, 35, 0.9);
+      background: #0d1117;
       border-radius: 20px;
       padding: 30px;
-      width: 380px;
+      width: 360px;
       text-align: center;
-      box-shadow: 0 0 25px rgba(14,165,255,0.7), 0 0 60px rgba(14,165,255,0.4);
-      backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.7);
       z-index: 1;
     }
 
@@ -55,45 +56,67 @@
       object-fit: cover;
       margin-bottom: 15px;
       border: 3px solid #0ea5ff;
-      box-shadow: 0 0 20px #0ea5ff, 0 0 40px #0ea5ff;
+      box-shadow: 0 0 20px #0ea5ff;
+      animation: pulse 2s infinite alternate;
     }
 
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-size: 1.6rem;
       font-weight: bold;
+      font-style: italic;
       color: #0ea5ff;
-      text-shadow: 0 0 8px #0ea5ff, 0 0 20px #0ea5ff, 0 0 40px #0ea5ff;
+      text-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff;
+      animation: pulseText 2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
+      100% { box-shadow: 0 0 25px #0ea5ff, 0 0 40px #0ea5ff; }
+    }
+
+    @keyframes pulseText {
+      0% { text-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
+      100% { text-shadow: 0 0 20px #0ea5ff, 0 0 40px #0ea5ff; }
+    }
+
+    .pay-item {
+      margin: 25px 0;
+      text-align: center;
     }
 
     .pay-label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      text-shadow: 0 0 8px #00f7ff;
       display: block;
+      margin-bottom: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #7dd3fc;
+      text-shadow: 0 0 8px #0ea5ff;
     }
 
     .pay-box {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 12px; /* biar lebih lega */
     }
 
     .pay-number {
-      padding: 8px 14px;
+      padding: 10px 14px;
       border-radius: 8px;
       border: 1px solid #0ea5ff;
-      background: rgba(14,165,255,0.1);
+      background: rgba(14, 165, 255, 0.08);
       font-family: "Courier New", monospace;
       font-weight: 600;
       color: #0ea5ff;
+      text-shadow: 0 0 6px #0ea5ff;
       user-select: all;
-      box-shadow: 0 0 10px #0ea5ff, inset 0 0 10px rgba(14,165,255,0.5);
+      min-width: 160px;
+      text-align: center;
     }
 
     .copy-btn {
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 8px;
       border: none;
       background: #0ea5ff;
@@ -101,119 +124,59 @@
       font-weight: 600;
       cursor: pointer;
       transition: all .2s ease;
-      box-shadow: 0 0 12px #0ea5ff, 0 0 30px #0ea5ff;
+      box-shadow: 0 0 10px #0ea5ff;
     }
     .copy-btn:hover {
       background: #0284c7;
       transform: translateY(-2px);
-      box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
+      box-shadow: 0 0 15px #0284c7;
     }
 
     .copy-msg {
-      margin-top: 4px;
+      margin-top: 6px;
       font-size: 0.8rem;
-      color: #00eaff;
-      text-shadow: 0 0 6px #00eaff;
+      color: #7dd3fc;
       display: none;
     }
 
     .social-btn {
       display: block;
-      margin: 10px auto;
-      padding: 12px;
+      margin: 16px auto; /* jarak antar tombol sosmed lebih lega */
+      padding: 14px;
       border-radius: 10px;
       font-weight: 600;
       color: #fff;
       text-decoration: none;
       transition: all .2s ease;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+      width: 90%;
     }
 
     .wa-btn {
       background: #25D366;
-      box-shadow: 0 0 12px #25D366, 0 0 30px #25D366;
+      box-shadow: 0 0 20px #25D366;
     }
     .wa-btn:hover {
       background: #1ebe5d;
       transform: translateY(-2px);
-      box-shadow: 0 0 20px #25ff7c, 0 0 40px #25ff7c;
+      box-shadow: 0 0 25px #1ebe5d;
     }
 
     .tg-btn {
       background: #0088cc;
-      box-shadow: 0 0 12px #0088cc, 0 0 30px #0088cc;
+      box-shadow: 0 0 20px #0088cc;
     }
     .tg-btn:hover {
       background: #0077b6;
       transform: translateY(-2px);
-      box-shadow: 0 0 20px #00e1ff, 0 0 40px #00e1ff;
-    }
-
-    /* Switch Neon */
-    .theme-switch {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      color: #0ea5ff;
-      text-shadow: 0 0 6px #0ea5ff;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #444;
-      transition: .4s;
-      border-radius: 34px;
-      box-shadow: 0 0 10px #0ea5ff inset;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #0ea5ff;
-    }
-
-    input:checked + .slider {
-      background-color: #0ea5ff;
-      box-shadow: 0 0 20px #0ea5ff, 0 0 40px #0ea5ff;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(26px);
-      background-color: #fff;
+      box-shadow: 0 0 25px #0077b6;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="https://files.catbox.moe/fr5p11.jpg" alt="Logo" class="logo">
-    <h1>⚡ <i>Alwayzrymz Payment</i></h1>
+    <h1>⚡ <i>Zyxxennn Payment</i></h1>
 
     <div class="pay-item">
       <span class="pay-label">Dana</span>
@@ -235,16 +198,6 @@
 
     <a href="https://wa.me/6281280305494" class="social-btn wa-btn">📲 WhatsApp: 081280305494</a>
     <a href="https://t.me/alwayzrymz" class="social-btn tg-btn">📩 Telegram: t.me/alwayzrymz</a>
-
-    <!-- Theme Switch -->
-    <div class="theme-switch">
-      <span>Light</span>
-      <label class="switch">
-        <input type="checkbox" id="themeToggle">
-        <span class="slider"></span>
-      </label>
-      <span>Dark</span>
-    </div>
   </div>
 
   <script>
@@ -255,11 +208,6 @@
         setTimeout(() => { msg.style.display = "none"; }, 1500);
       });
     }
-
-    const toggle = document.getElementById("themeToggle");
-    toggle.addEventListener("change", () => {
-      document.body.classList.toggle("light", toggle.checked);
-    });
   </script>
 </body>
 </html>
