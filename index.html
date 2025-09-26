@@ -1,284 +1,177 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zyxxennn Payment</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Shiroko | Zyxxennn</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Poppins,Arial,sans-serif;background:#000;color:#fff;overflow-x:hidden}
+    .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:-1}
+
+    /* Header & Hamburger */
+    header{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      padding:12px 18px;
+      display:flex;
+      justify-content:flex-start;
+      z-index:20;
+    }
+    .hamburger{
+      cursor:pointer;
+      color:#fff;
+      font-size:28px;
     }
 
-    /* Background grid animasi */
-    body::before {
-      content: "";
+    /* Sidebar */
+    .sidebar{
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(90deg, rgba(0,255,255,0.2) 1px, transparent 1px),
-                  linear-gradient(rgba(0,255,255,0.2) 1px, transparent 1px);
-      background-size: 40px 40px;
-      animation: moveGrid 10s linear infinite;
-      z-index: -2;
+      top:0;
+      left:-260px;
+      width:240px;
+      height:100%;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-right:1px solid rgba(255,255,255,0.2);
+      display:flex;
+      flex-direction:column;
+      padding:60px 20px;
+      gap:12px;
+      transition:left .3s ease;
+      z-index:30;
     }
-    @keyframes moveGrid {
-      from { background-position: 0 0, 0 0; }
-      to { background-position: 40px 40px, 40px 40px; }
-    }
+    .sidebar.open{left:0}
+    .sidebar a{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:600;padding:10px;border-radius:8px;transition:.3s ease;box-shadow:0 0 6px rgba(0,0,0,0.2) inset}
+    .sidebar a:hover{background:rgba(0,195,255,0.15);box-shadow:0 0 10px rgba(0,195,255,0.7),0 0 20px rgba(0,119,255,0.5);}
+    .sidebar .label{font-size:.8rem;color:#aad7ff;margin-top:16px;letter-spacing:1px}
 
-    /* Partikel neon */
-    .particles {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-    .particle {
-      position: absolute;
-      width: 6px; height: 6px;
-      background: cyan;
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 6s infinite ease-in-out;
-    }
-    @keyframes float {
-      0% { transform: translateY(0) scale(1); opacity: 0.8; }
-      50% { transform: translateY(-60px) scale(1.2); opacity: 0.4; }
-      100% { transform: translateY(0) scale(1); opacity: 0.8; }
-    }
+    /* Main Content */
+    .wrap{margin-top:70px;display:flex;flex-direction:column;align-items:center;padding:20px;text-align:center}
+    .avatar{width:150px;height:150px;border-radius:999px;border:4px solid #00c3ff;object-fit:cover}
+    h1{margin-top:10px;font-size:2rem;color:#ffd86b;text-shadow:0 3px 10px rgba(0,0,0,0.5)}
+    .intro{max-width:700px;margin:12px 0;line-height:1.5;color:#eaf6ff}
+    .btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:8px 0}
+    .btn{padding:10px 18px;border-radius:999px;background:linear-gradient(90deg,#00c3ff,#0077ff);color:#fff;text-decoration:none;font-weight:700;transition:.3s ease;box-shadow:0 0 8px rgba(0,195,255,0.5);}
+    .btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 16px rgba(0,195,255,0.9),0 0 30px rgba(0,119,255,0.7);}
+    .menu-title{margin-top:14px;font-weight:700;letter-spacing:2px;color:#dff1ff}
+    .sections{width:100%;max-width:900px;margin-top:16px;padding-bottom:60px}
+    .section{display:none}
+    .section.active{display:block;animation:fadeIn .3s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-    /* Marquee teks atas */
-    .marquee {
-      position: fixed;
-      top: 5px; width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      font-size: 18px;
-      font-weight: bold;
-      color: cyan;
-      text-shadow: 0 0 8px cyan, 0 0 16px #0ff;
-    }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 10s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Card container */
-    .card {
-      max-width: 360px;
-      margin: 80px auto;
-      padding: 30px;
-      border-radius: 16px;
-      background: rgba(10, 10, 20, 0.95);
-      text-align: center;
-      position: relative;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-    }
-    .card::before {
-      content: "";
-      position: absolute;
-      top: -2px; left: -2px; right: -2px; bottom: -2px;
-      border-radius: 18px;
-      background: linear-gradient(270deg, cyan, magenta, blue, cyan);
-      background-size: 600% 600%;
-      animation: borderGlow 8s linear infinite;
-      z-index: -1;
-    }
-    @keyframes borderGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .logo {
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      box-shadow: 0 0 20px cyan;
-    }
-
-    h2 {
-      color: cyan;
-      text-shadow: 0 0 10px cyan, 0 0 20px cyan;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
-
-    /* Efek scanning teks */
-    .scanning {
-      font-size: 12px;
-      color: lime;
-      overflow: hidden;
-      border-right: 2px solid lime;
-      white-space: nowrap;
-      margin: 0 auto 20px;
-      width: 0;
-      animation: typing 3s steps(30, end) forwards, blink .75s step-end infinite;
-    }
-    @keyframes typing { to { width: 200px; } }
-    @keyframes blink { 50% { border-color: transparent; } }
-
-    .label {
-      font-weight: bold;
-      margin: 10px 0 5px;
-      color: cyan;
-      text-shadow: 0 0 8px cyan;
-    }
-
-    .input-box {
-      background: transparent;
-      border: 1px solid cyan;
-      border-radius: 8px;
-      padding: 10px;
-      color: cyan;
-      width: 100%;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    .copy-btn {
-      display: inline-block;
-      margin-bottom: 8px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: none;
-      background: cyan;
-      color: #000;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .copy-btn:hover {
-      background: #0ff;
-      box-shadow: 0 0 15px cyan;
-    }
-
-    .notif {
-      font-size: 12px;
-      color: lime;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      margin-bottom: 12px;
-      height: 14px;
-    }
-
-    .link {
-      display: block;
-      margin: 12px 0;
-      font-weight: bold;
-      text-decoration: none;
-      padding: 10px;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-
-    /* Animasi pulse neon */
-    @keyframes pulse {
-      0%, 100% { text-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
-      50% { text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
-    }
-
-    .wa {
-      color: #fff;
-      background: #25d366;
-      text-shadow: 0 0 8px #25d366;
-      animation: pulse 2s infinite;
-    }
-    .tg {
-      color: #fff;
-      background: #0088cc;
-      text-shadow: 0 0 8px #0088cc;
-      animation: pulse 2s infinite;
-      animation-delay: 1s;
-    }
-
-    /* Watermark */
-    .watermark {
-      margin-top: 20px;
-      font-size: 12px;
-      font-style: italic;
-      white-space: nowrap;
-      overflow: hidden;
-      width: 100%;
-      text-align: center;
-    }
-
-    .watermark span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: wmScroll 12s linear infinite, wmColor 6s linear infinite;
-    }
-
-    @keyframes wmScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    @keyframes wmColor {
-      0% { color: cyan; text-shadow: 0 0 8px cyan, 0 0 12px cyan; }
-      25% { color: magenta; text-shadow: 0 0 8px magenta, 0 0 12px magenta; }
-      50% { color: violet; text-shadow: 0 0 8px violet, 0 0 12px violet; }
-      75% { color: lime; text-shadow: 0 0 8px lime, 0 0 12px lime; }
-      100% { color: cyan; text-shadow: 0 0 8px cyan, 0 0 12px cyan; }
-    }
+    /* Card Styles */
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .card{background:#fff;color:#111;border-radius:14px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,0.5)}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:10px}
+    .card h3, .card h2{margin-bottom:6px}
+    .card p{margin-bottom:10px;font-size:.9rem}
+    .card .card-btn{display:inline-block;padding:8px 12px;background:#0077ff;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:.3s}
+    .card .card-btn:hover{box-shadow:0 0 12px rgba(0,195,255,0.8),0 0 25px rgba(0,119,255,0.6);}
   </style>
 </head>
 <body>
-  <div class="marquee"><span>⚡ PAYMENT ZYXXENNN ⚡</span></div>
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="https://files.catbox.moe/1p7a9d.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
 
-  <div class="particles">
-    <div class="particle" style="left:10%;top:80%;animation-delay:0s;"></div>
-    <div class="particle" style="left:30%;top:60%;animation-delay:1s;"></div>
-    <div class="particle" style="left:70%;top:40%;animation-delay:2s;"></div>
-    <div class="particle" style="left:50%;top:20%;animation-delay:3s;"></div>
-    <div class="particle" style="left:90%;top:70%;animation-delay:4s;"></div>
-  </div>
+  <header>
+    <div class="hamburger" id="hamburger">
+      <i data-lucide="menu"></i>
+    </div>
+  </header>
 
-  <div class="card">
-    <img src="https://files.catbox.moe/rc5li0.jpg" alt="logo" class="logo">
-    <h2>⚡ Zyxxennn Payment</h2>
-    <div class="tagline">Fast • Secure • Trusted Payment Gateway</div>
-    <div class="scanning">[ SCANNING SYSTEM READY... ]</div>
+  <nav id="sidebar" class="sidebar">
+    <a href="#" onclick="goHome()"><i data-lucide="home"></i> HOME</a>
+    <a href="#" onclick="loadSection('tools','pages/tools.html')"><i data-lucide="wrench"></i> TOOLS</a>
+    <a href="#" onclick="loadSection('script','pages/script.html')"><i data-lucide="file-code-2"></i> SCRIPT</a>
+    <a href="#" onclick="loadSection('shop','pages/shop.html')"><i data-lucide="shopping-cart"></i> SHOP / TOKO</a>
+    <div class="label">MENU MEDIA SOSIAL</div>
+    <a href="https://t.me/Zyxxennn" target="_blank"><i data-lucide="send"></i> TELEGRAM</a>
+    <a href="https://t.me/ZyxxennnCH" target="_blank"><i data-lucide="rss"></i> CHANNEL TELEGRAM</a>
+    <a href="anonymous.html"><i data-lucide="message-circle"></i> ANONYMOUS CHAT</a>
+  </nav>
 
-    <div class="label">Dana</div>
-    <div class="input-box" id="dana">xxxxxxxxxx</div>
-    <button class="copy-btn" onclick="copyText('dana','notif-dana')">Copy Dana</button>
-    <div class="notif" id="notif-dana"></div>
+  <main class="wrap">
+    <img class="avatar" src="https://files.catbox.moe/egvoem.jpg" alt="Shiroko">
+    <h1>Shiroko</h1>
+    <p class="intro">
+      Halo! Saya Zyxxennn membuat website modern, aplikasi ringan, dan konten kreatif. 
+      Saya suka coding, suka membantu dan pengalaman pengguna yang senang dan bisa dimanfaatkan. 
+      Kalian bisa hubungi saya lewat tautan di bawah ini dan dapat info lewat channel telegram.
+    </p>
 
-    <div class="label">GoPay</div>
-    <div class="input-box" id="gopay">xxxxxxxxxx</div>
-    <button class="copy-btn" onclick="copyText('gopay','notif-gopay')">Copy GoPay</button>
-    <div class="notif" id="notif-gopay"></div>
+    <div class="btn-row">
+      <a class="btn" href="https://saweria.co/yourlink" target="_blank">SAWERIA</a>
+      <a class="btn" href="https://t.me/Zyxxennn" target="_blank">TELEGRAM</a>
+      <a class="btn" href="https://t.me/ZyxxennnCH" target="_blank">CHANNEL OWNER</a>
+    </div>
 
-    <a href="https://wa.me/6281280305494" class="link wa">📱 WhatsApp</a>
-    <a href="https://t.me/alwayzrymz" class="link tg">✉️ Telegram</a>
+    <div class="menu-title">MENU</div>
+    <div class="btn-row">
+      <button class="btn" onclick="loadSection('tools','pages/tools.html')">TOOLS</button>
+      <button class="btn" onclick="loadSection('script','pages/script.html')">SCRIPT</button>
+      <button class="btn" onclick="loadSection('shop','pages/shop.html')">SHOP / TOKO</button>
+            <button class="btn" onclick="loadSection('script','pages/html.html')">HTML</button>
+    </div>
 
-    <!-- Watermark -->
-    <div class="watermark"><span>© 2025 Zyxxennn</span></div>
-  </div>
+    <div class="sections">
+      <div id="tools" class="section"></div>
+      <div id="script" class="section"></div>
+      <div id="shop" class="section"></div>
+      <div id="html" class="section"></div>
+    </div>
+  </main>
 
   <script>
-    function copyText(id, notifId) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        let notif = document.getElementById(notifId);
-        notif.textContent = "✅ Copied!";
-        notif.style.opacity = "1";
-        setTimeout(() => { notif.style.opacity = "0"; }, 2000);
-      });
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.getElementById('hamburger');
+
+    // Toggle sidebar
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      const icon = hamburger.querySelector('i');
+      icon.setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
+      lucide.createIcons();
+    });
+
+    // Tutup sidebar saat klik di luar
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+        sidebar.classList.remove('open');
+        hamburger.querySelector('i').setAttribute('data-lucide','menu');
+        lucide.createIcons();
+      }
+    });
+
+    function goHome(){
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      sidebar.classList.remove('open');
+      hamburger.querySelector('i').setAttribute('data-lucide','menu');
+      lucide.createIcons();
+      window.scrollTo({top:0,behavior:'smooth'});
     }
+
+    function loadSection(id,url){
+      fetch(url)
+        .then(res=>res.text())
+        .then(html=>{
+          document.getElementById(id).innerHTML=html;
+          document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+          document.getElementById(id).classList.add('active');
+          sidebar.classList.remove('open');
+          hamburger.querySelector('i').setAttribute('data-lucide','menu');
+          lucide.createIcons();
+        });
+    }
+
+    lucide.createIcons();
   </script>
 </body>
 </html>
