@@ -2,131 +2,25 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Buat Website - Zyxxennn</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: url('https://i.ibb.co/8c037c0065f3.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #e0e0e0;
-    }
-    .container {
-      max-width: 480px;
-      margin: 40px auto;
-      background-color: #1f1f1f;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-    }
-    h2 {
-      text-align: center;
-      font-size: 20px;
-      color: #00ffff;
-      margin-bottom: 24px;
-    }
-    label {
-      display: block;
-      margin: 12px 0 4px;
-      font-size: 14px;
-      color: #bbbbbb;
-    }
-    input[type="text"],
-    input[type="file"],
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 14px;
-      border-radius: 10px;
-      border: none;
-      background-color: #2a2a2a;
-      color: #fff;
-      box-sizing: border-box;
-    }
-    button {
-      margin-top: 18px;
-      background-color: #00c17b;
-      font-weight: 600;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background-color: #00a46c;
-    }
-    #result {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 13px;
-      color: #00ffff;
-    }
-    .footer {
-      margin-top: 30px;
-      font-size: 13px;
-      background-color: #181818;
-      padding: 18px;
-      border-radius: 12px;
-    }
-    .footer h4 {
-      margin-bottom: 8px;
-      font-size: 14px;
-      color: #fff;
-    }
-    .footer ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 12px 0;
-    }
-    .footer li {
-      margin-bottom: 6px;
-    }
-    .footer a {
-      color: #00ffff;
-      text-decoration: none;
-    }
-    .created-by {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 12px;
-      color: #666;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deploy ke Vercel + Telegram</title>
 </head>
 <body>
-  <div class="container">
-    <h2>✨ Buat Website Otomatis By Zyxxennn ✨</h2>
-    <form id="deployForm">
-      <label>Nama Website</label>
-      <input type="text" id="siteName" placeholder="contoh: mykerenweb" required>
+  <h2>🚀 Deploy Website</h2>
+  <form id="deployForm">
+    <label>Nama Project:</label><br>
+    <input type="text" id="siteName" required><br><br>
 
-      <label>Upload File HTML</label>
-      <input type="file" id="htmlFile" accept=".html" required>
+    <label>Upload index.html:</label><br>
+    <input type="file" id="htmlFile" accept=".html" required><br><br>
 
-      <button type="submit">CREATE SEKARANG</button>
-    </form>
+    <button type="submit">Deploy</button>
+  </form>
 
-    <div id="result"></div>
-
-    <div class="footer">
-      <h4>📌 Syarat & Ketentuan</h4>
-      <ul>
-        <li>File wajib bernama <strong>index.html</strong>.</li>
-        <li>Tidak boleh mengandung konten ilegal atau phishing.</li>
-        <li>Website akan bersifat publik & gratis.</li>
-      </ul>
-
-      <h4>📞 Kontak Admin</h4>
-      <ul>
-        <li>Telegram: <a href="https://t.me/RoomZyxxennn" target="_blank">Room Public</a></li>
-        <li>Telegram: <a href="https://t.me/Zyxxennn" target="_blank">Owner Web</a></li>
-        <li>Channel: <a href="https://t.me/ZyxxennnCH" target="_blank">Channel Kami</a></li>
-      </ul>
-
-      <div class="created-by">🌐 Create by <strong>Zyxxennn</strong></div>
-    </div>
-  </div>
+  <div id="result" style="margin-top:20px; font-family:monospace;"></div>
 
   <script>
-    const vercelToken = "LNy0wPjGrFdrPix92wcFRhQ6"; // Token Vercel kamu
+    const vercelToken = "LNy0wPjGrFdrPix92wcFRhQ6"; // Token Vercel
     const telegramBotToken = "8330143062:AAGIYPE3ssRG-2-HiOkwlvP2AG7mtoGkgQ8";  
     const chatId = "8447173769";  
 
@@ -145,7 +39,7 @@
       const file = fileInput.files[0];  
       resultDiv.innerHTML = "📤 Upload ke Telegram...";  
 
-      // Upload ke Telegram dulu
+      // Upload ke Telegram
       const formData = new FormData();  
       formData.append("chat_id", chatId);  
       formData.append("caption", `📄 File HTML baru dari: ${siteName}`);  
@@ -168,7 +62,7 @@
 
       resultDiv.innerHTML = "⏳ Membuat project di Vercel...";  
 
-      // Buat project baru di Vercel
+      // Buat project baru
       try {  
         await fetch("https://api.vercel.com/v10/projects", {  
           method: "POST",  
@@ -188,7 +82,7 @@
 
       resultDiv.innerHTML = "🚀 Deploying ke Vercel...";  
 
-      // Baca isi file, encode ke base64
+      // Encode file ke base64
       const htmlText = await file.text();  
       const base64Data = btoa(unescape(encodeURIComponent(htmlText)));  
 
@@ -199,7 +93,7 @@
         files: [{  
           file: "index.html",  
           data: base64Data,  
-          encoding: "base64"   // WAJIB!  
+          encoding: "base64"  
         }],  
         projectSettings: {  
           framework: null  
@@ -217,10 +111,10 @@
         });  
 
         const data = await response.json();  
-        console.log(data); // debug di console browser  
+        console.log(data);  
 
         if (data.url) {  
-          resultDiv.innerHTML = `✅ Website berhasil dibuat:<br><a href="https://${siteName}.vercel.app" target="_blank">https://${siteName}.vercel.app</a>`;  
+          resultDiv.innerHTML = `✅ Website berhasil dibuat:<br><a href="https://${data.url}" target="_blank">https://${data.url}</a>`;  
         } else {  
           resultDiv.innerHTML = `❌ Gagal: ${data.error?.message || "Terjadi kesalahan."}`;  
         }  
