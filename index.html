@@ -1,177 +1,353 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Shiroko | Zyxxennn</title>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Poppins,Arial,sans-serif;background:#000;color:#fff;overflow-x:hidden}
-    .bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:-1}
-
-    /* Header & Hamburger */
-    header{
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      padding:12px 18px;
-      display:flex;
-      justify-content:flex-start;
-      z-index:20;
-    }
-    .hamburger{
-      cursor:pointer;
-      color:#fff;
-      font-size:28px;
-    }
-
-    /* Sidebar */
-    .sidebar{
-      position: fixed;
-      top:0;
-      left:-260px;
-      width:240px;
-      height:100%;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-right:1px solid rgba(255,255,255,0.2);
-      display:flex;
-      flex-direction:column;
-      padding:60px 20px;
-      gap:12px;
-      transition:left .3s ease;
-      z-index:30;
-    }
-    .sidebar.open{left:0}
-    .sidebar a{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:600;padding:10px;border-radius:8px;transition:.3s ease;box-shadow:0 0 6px rgba(0,0,0,0.2) inset}
-    .sidebar a:hover{background:rgba(0,195,255,0.15);box-shadow:0 0 10px rgba(0,195,255,0.7),0 0 20px rgba(0,119,255,0.5);}
-    .sidebar .label{font-size:.8rem;color:#aad7ff;margin-top:16px;letter-spacing:1px}
-
-    /* Main Content */
-    .wrap{margin-top:70px;display:flex;flex-direction:column;align-items:center;padding:20px;text-align:center}
-    .avatar{width:150px;height:150px;border-radius:999px;border:4px solid #00c3ff;object-fit:cover}
-    h1{margin-top:10px;font-size:2rem;color:#ffd86b;text-shadow:0 3px 10px rgba(0,0,0,0.5)}
-    .intro{max-width:700px;margin:12px 0;line-height:1.5;color:#eaf6ff}
-    .btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:8px 0}
-    .btn{padding:10px 18px;border-radius:999px;background:linear-gradient(90deg,#00c3ff,#0077ff);color:#fff;text-decoration:none;font-weight:700;transition:.3s ease;box-shadow:0 0 8px rgba(0,195,255,0.5);}
-    .btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 0 16px rgba(0,195,255,0.9),0 0 30px rgba(0,119,255,0.7);}
-    .menu-title{margin-top:14px;font-weight:700;letter-spacing:2px;color:#dff1ff}
-    .sections{width:100%;max-width:900px;margin-top:16px;padding-bottom:60px}
-    .section{display:none}
-    .section.active{display:block;animation:fadeIn .3s ease-out}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-
-    /* Card Styles */
-    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
-    .card{background:#fff;color:#111;border-radius:14px;padding:12px;box-shadow:0 6px 20px rgba(0,0,0,0.5)}
-    .card img{width:100%;height:140px;object-fit:cover;border-radius:8px;margin-bottom:10px}
-    .card h3, .card h2{margin-bottom:6px}
-    .card p{margin-bottom:10px;font-size:.9rem}
-    .card .card-btn{display:inline-block;padding:8px 12px;background:#0077ff;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:.3s}
-    .card .card-btn:hover{box-shadow:0 0 12px rgba(0,195,255,0.8),0 0 25px rgba(0,119,255,0.6);}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Courier Bot</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <style>
+        .bg-space-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        .telegram-btn {
+            background-color: #0088cc;
+            transition: all 0.3s ease;
+        }
+        .telegram-btn:hover {
+            background-color: #0077b3;
+        }
+        .result-card {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+        .upload-area {
+            border: 2px dashed #3b82f6;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            border-color: #2563eb;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+    </style>
 </head>
-<body>
-  <video class="bg-video" autoplay muted loop playsinline>
-    <source src="https://files.catbox.moe/1p7a9d.mp4" type="video/mp4">
-  </video>
-  <div class="overlay"></div>
+<body class="min-h-screen bg-space-gradient text-white">
+    <div id="vanta-bg" class="fixed inset-0 z-0"></div>
+    
+    <div class="relative z-10 container mx-auto px-4 py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Photo Courier Bot
+            </h1>
+            <p class="text-xl text-blue-200 max-w-2xl mx-auto">
+                Transform your photos and get them delivered to your Telegram automatically!
+            </p>
+        </header>
 
-  <header>
-    <div class="hamburger" id="hamburger">
-      <i data-lucide="menu"></i>
+        <div class="max-w-4xl mx-auto bg-white/5 backdrop-blur-lg rounded-xl p-6 shadow-xl">
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="mode-selector p-4 rounded-lg cursor-pointer border border-blue-500/30 hover:border-blue-500 transition-all text-center" data-mode="edit">
+                    <i data-feather="edit-3" class="w-8 h-8 mx-auto mb-2 text-blue-400"></i>
+                    <h3 class="font-semibold">Image Edit</h3>
+                </div>
+                <div class="mode-selector p-4 rounded-lg cursor-pointer border border-purple-500/30 hover:border-purple-500 transition-all text-center" data-mode="chibi">
+                    <i data-feather="user" class="w-8 h-8 mx-auto mb-2 text-purple-400"></i>
+                    <h3 class="font-semibold">To Chibi</h3>
+                </div>
+                <div class="mode-selector p-4 rounded-lg cursor-pointer border border-pink-500/30 hover:border-pink-500 transition-all text-center" data-mode="figure">
+                    <i data-feather="box" class="w-8 h-8 mx-auto mb-2 text-pink-400"></i>
+                    <h3 class="font-semibold">To Figure</h3>
+                </div>
+            </div>
+
+            <div id="upload-container" class="upload-area rounded-xl p-8 mb-8 cursor-pointer text-center">
+                <i data-feather="upload-cloud" class="w-12 h-12 mx-auto mb-4 text-blue-400"></i>
+                <h3 class="text-xl font-semibold mb-2">Drag & Drop your image here</h3>
+                <p class="text-blue-200 mb-4">or click to browse files</p>
+                <input type="file" id="file-input" accept="image/*" class="hidden">
+                <button id="browse-btn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+                    Select Image
+                </button>
+            </div>
+
+            <div id="progress-container" class="hidden mb-8">
+                <div class="flex justify-between mb-2">
+                    <span>Processing...</span>
+                    <span id="progress-percent">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="result-container" class="hidden">
+                <div class="result-card bg-gray-800/50 rounded-xl p-6 mb-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-lg font-semibold mb-2">Original</h3>
+                            <div id="original-image" class="rounded-lg overflow-hidden bg-gray-900/50"></div>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <h3 class="text-lg font-semibold mb-2">Result</h3>
+                            <div id="result-image" class="rounded-lg overflow-hidden bg-gray-900/50"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button id="download-btn" class="px-6 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition flex items-center gap-2">
+                        <i data-feather="download"></i> Download
+                    </button>
+                    <div id="telegram-container" class="flex items-center gap-4">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="telegram-consent" class="sr-only peer">
+                            <div class="relative w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <span class="ms-3 text-sm font-medium">Send to Telegram</span>
+                        </label>
+                        <button id="send-telegram-btn" class="px-6 py-2 telegram-btn rounded-lg transition flex items-center gap-2">
+                            <i data-feather="send"></i> Send Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="telegram-status" class="mt-4 hidden">
+                <div class="p-4 rounded-lg bg-gray-800/50 flex items-start gap-3">
+                    <i data-feather="info" class="text-blue-400"></i>
+                    <div>
+                        <h4 class="font-semibold" id="status-title">Sending to Telegram...</h4>
+                        <p class="text-sm text-gray-300" id="status-message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </header>
-
-  <nav id="sidebar" class="sidebar">
-    <a href="#" onclick="goHome()"><i data-lucide="home"></i> HOME</a>
-    <a href="#" onclick="loadSection('tools','pages/tools.html')"><i data-lucide="wrench"></i> TOOLS</a>
-    <a href="#" onclick="loadSection('script','pages/script.html')"><i data-lucide="file-code-2"></i> SCRIPT</a>
-    <a href="#" onclick="loadSection('shop','pages/shop.html')"><i data-lucide="shopping-cart"></i> SHOP / TOKO</a>
-    <div class="label">MENU MEDIA SOSIAL</div>
-    <a href="https://t.me/Zyxxennn" target="_blank"><i data-lucide="send"></i> TELEGRAM</a>
-    <a href="https://t.me/ZyxxennnCH" target="_blank"><i data-lucide="rss"></i> CHANNEL TELEGRAM</a>
-    <a href="anonymous.html"><i data-lucide="message-circle"></i> ANONYMOUS CHAT</a>
-  </nav>
-
-  <main class="wrap">
-    <img class="avatar" src="https://files.catbox.moe/egvoem.jpg" alt="Shiroko">
-    <h1>Shiroko</h1>
-    <p class="intro">
-      Halo! Saya Zyxxennn membuat website modern, aplikasi ringan, dan konten kreatif. 
-      Saya suka coding, suka membantu dan pengalaman pengguna yang senang dan bisa dimanfaatkan. 
-      Kalian bisa hubungi saya lewat tautan di bawah ini dan dapat info lewat channel telegram.
-    </p>
-
-    <div class="btn-row">
-      <a class="btn" href="https://saweria.co/yourlink" target="_blank">SAWERIA</a>
-      <a class="btn" href="https://t.me/Zyxxennn" target="_blank">TELEGRAM</a>
-      <a class="btn" href="https://t.me/ZyxxennnCH" target="_blank">CHANNEL OWNER</a>
-    </div>
-
-    <div class="menu-title">MENU</div>
-    <div class="btn-row">
-      <button class="btn" onclick="loadSection('tools','pages/tools.html')">TOOLS</button>
-      <button class="btn" onclick="loadSection('script','pages/script.html')">SCRIPT</button>
-      <button class="btn" onclick="loadSection('shop','pages/shop.html')">SHOP / TOKO</button>
-            <button class="btn" onclick="loadSection('script','pages/html.html')">HTML</button>
-    </div>
-
-    <div class="sections">
-      <div id="tools" class="section"></div>
-      <div id="script" class="section"></div>
-      <div id="shop" class="section"></div>
-      <div id="html" class="section"></div>
-    </div>
-  </main>
-
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const hamburger = document.getElementById('hamburger');
-
-    // Toggle sidebar
-    hamburger.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      const icon = hamburger.querySelector('i');
-      icon.setAttribute('data-lucide', sidebar.classList.contains('open') ? 'x' : 'menu');
-      lucide.createIcons();
-    });
-
-    // Tutup sidebar saat klik di luar
-    document.addEventListener('click', (e) => {
-      if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-        sidebar.classList.remove('open');
-        hamburger.querySelector('i').setAttribute('data-lucide','menu');
-        lucide.createIcons();
-      }
-    });
-
-    function goHome(){
-      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-      sidebar.classList.remove('open');
-      hamburger.querySelector('i').setAttribute('data-lucide','menu');
-      lucide.createIcons();
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
-
-    function loadSection(id,url){
-      fetch(url)
-        .then(res=>res.text())
-        .then(html=>{
-          document.getElementById(id).innerHTML=html;
-          document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-          document.getElementById(id).classList.add('active');
-          sidebar.classList.remove('open');
-          hamburger.querySelector('i').setAttribute('data-lucide','menu');
-          lucide.createIcons();
+    <script>
+        // Telegram bot token and owner chat ID
+        const BOT_TOKEN = '8330143062:AAGIYPE3ssRG-2-HiOkwlvP2AG7mtoGkgQ8';
+        const OWNER_CHAT_ID = '8447173769';
+// Initialize Vanta.js background
+VANTA.GLOBE({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3b82f6,
+            backgroundColor: 0x0f172a,
+            size: 0.8
         });
-    }
 
-    lucide.createIcons();
-  </script>
+        // Initialize feather icons
+        document.addEventListener('DOMContentLoaded', function() {
+            feather.replace();
+            
+            // Mode selection
+            const modeSelectors = document.querySelectorAll('.mode-selector');
+            let currentMode = 'edit';
+            
+            modeSelectors.forEach(selector => {
+                selector.addEventListener('click', function() {
+                    modeSelectors.forEach(s => s.classList.remove('bg-blue-500/10'));
+                    this.classList.add('bg-blue-500/10');
+                    currentMode = this.dataset.mode;
+                });
+            });
+            
+            // Default select first mode
+            modeSelectors[0].classList.add('bg-blue-500/10');
+            
+            // File upload handling
+            const uploadContainer = document.getElementById('upload-container');
+            const fileInput = document.getElementById('file-input');
+            const browseBtn = document.getElementById('browse-btn');
+            
+            uploadContainer.addEventListener('click', () => fileInput.click());
+            browseBtn.addEventListener('click', () => fileInput.click());
+            
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('border-blue-400', 'bg-blue-500/10');
+            });
+            
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('border-blue-400', 'bg-blue-500/10');
+            });
+            
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('border-blue-400', 'bg-blue-500/10');
+                
+                if (e.dataTransfer.files.length) {
+                    handleFile(e.dataTransfer.files[0]);
+                }
+            });
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length) {
+                    handleFile(fileInput.files[0]);
+                }
+            });
+            
+            function handleFile(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                // Show original image
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const originalImage = document.getElementById('original-image');
+                    originalImage.innerHTML = `<img src="${e.target.result}" class="w-full h-auto" alt="Original">`;
+                    
+                    // Show processing UI
+                    document.getElementById('upload-container').classList.add('hidden');
+                    document.getElementById('progress-container').classList.remove('hidden');
+                    
+                    // Simulate processing
+                    simulateProcessing(file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function simulateProcessing(filename) {
+                let progress = 0;
+                const progressBar = document.getElementById('progress-bar');
+                const progressPercent = document.getElementById('progress-percent');
+                
+                const interval = setInterval(() => {
+                    progress += Math.random() * 10;
+                    if (progress > 100) progress = 100;
+                    
+                    progressBar.style.width = `${progress}%`;
+                    progressPercent.textContent = `${Math.floor(progress)}%`;
+                    
+                    if (progress === 100) {
+                        clearInterval(interval);
+                        setTimeout(showResult, 500);
+                    }
+                }, 300);
+            }
+            
+            function showResult() {
+                document.getElementById('progress-container').classList.add('hidden');
+                
+                // Generate a result image (in a real app, this would come from your processing API)
+                const originalImg = document.getElementById('original-image').querySelector('img');
+                const resultImage = document.getElementById('result-image');
+                
+                // For demo purposes, we'll just apply a filter to the original image
+                const resultImg = document.createElement('img');
+                resultImg.src = originalImg.src;
+                resultImg.className = 'w-full h-auto';
+                
+                // Apply different filters based on mode
+                if (currentMode === 'edit') {
+                    resultImg.style.filter = 'brightness(1.2) contrast(1.1) saturate(1.3)';
+                } else if (currentMode === 'chibi') {
+                    // For demo, we'll use a placeholder image
+                    resultImg.src = 'http://static.photos/anime/640x360/1';
+                } else if (currentMode === 'figure') {
+                    // For demo, we'll use a placeholder image
+                    resultImg.src = 'http://static.photos/figure/640x360/1';
+                }
+                
+                resultImage.innerHTML = '';
+                resultImage.appendChild(resultImg);
+                
+                document.getElementById('result-container').classList.remove('hidden');
+            }
+            
+            // Download button
+            document.getElementById('download-btn').addEventListener('click', function() {
+                const resultImg = document.getElementById('result-image').querySelector('img');
+                const link = document.createElement('a');
+                link.href = resultImg.src;
+                link.download = `processed-${new Date().getTime()}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            // Telegram integration
+            document.getElementById('send-telegram-btn').addEventListener('click', function() {
+                const telegramConsent = document.getElementById('telegram-consent').checked;
+                
+                if (!telegramConsent) {
+                    showTelegramStatus('Please enable Telegram sharing', 'You need to check the consent box first', 'error');
+                    return;
+                }
+                
+                const resultImg = document.getElementById('result-image').querySelector('img');
+                const originalImg = document.getElementById('original-image').querySelector('img');
+                
+                showTelegramStatus('Sending to Telegram...', 'Please wait while we send your image', 'sending');
+                const resultImg = document.getElementById('result-image').querySelector('img');
+                
+                // Send to Telegram bot
+                fetch(`https://api.telegram.org/bot8330143062:AAGIYPE3ssRG-2-HiOkwlvP2AG7mtoGkgQ8/sendPhoto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: '8447173769', // Owner chat ID
+photo: resultImg.src,
+                        caption: `New image processed via Photo Courier Bot\nMode: ${currentMode}`
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        showTelegramStatus('Sent successfully!', 'Your image has been delivered to the owner', 'success');
+                    } else {
+                        showTelegramStatus('Failed to send', data.description || 'Telegram API error', 'error');
+                    }
+                })
+                .catch(error => {
+                    showTelegramStatus('Failed to send', error.message, 'error');
+                });
+});
+            function showTelegramStatus(title, message, status, duration = 5000) {
+const statusContainer = document.getElementById('telegram-status');
+                const statusTitle = document.getElementById('status-title');
+                const statusMessage = document.getElementById('status-message');
+                
+                statusContainer.classList.remove('hidden');
+                statusTitle.textContent = title;
+                statusMessage.textContent = message;
+                
+                // Update icon based on status
+                const icon = statusContainer.querySelector('i');
+                if (status === 'sending') {
+                    icon.setAttribute('data-feather', 'clock');
+                    statusContainer.classList.remove('bg-green-900/20', 'bg-red-900/20');
+                    statusContainer.classList.add('bg-blue-900/20');
+                } else if (status === 'success') {
+                    icon.setAttribute('data-feather', 'check-circle');
+                    statusContainer.classList.remove('bg-blue-900/20', 'bg-red-900/20');
+                    statusContainer.classList.add('bg-green-900/20');
+                } else {
+                    icon.setAttribute('data-feather', 'alert-circle');
+                    statusContainer.classList.remove('bg-blue-900/20', 'bg-green-900/20');
+                    statusContainer.classList.add('bg-red-900/20');
+                }
+                feather.replace();
+                
+                // Auto-hide after duration
+                if (status !== 'sending') {
+                    setTimeout(() => {
+                        statusContainer.classList.add('hidden');
+                    }, duration);
+                }
+            }
+});
+    </script>
 </body>
 </html>
