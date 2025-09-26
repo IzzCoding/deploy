@@ -203,6 +203,36 @@
       animation: pulse 2s infinite;
       animation-delay: 1s;
     }
+
+    /* Watermark */
+    .watermark {
+      margin-top: 20px;
+      font-size: 12px;
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 100%;
+      text-align: center;
+    }
+
+    .watermark span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: wmScroll 12s linear infinite, wmColor 6s linear infinite;
+    }
+
+    @keyframes wmScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    @keyframes wmColor {
+      0% { color: cyan; text-shadow: 0 0 8px cyan, 0 0 12px cyan; }
+      25% { color: magenta; text-shadow: 0 0 8px magenta, 0 0 12px magenta; }
+      50% { color: violet; text-shadow: 0 0 8px violet, 0 0 12px violet; }
+      75% { color: lime; text-shadow: 0 0 8px lime, 0 0 12px lime; }
+      100% { color: cyan; text-shadow: 0 0 8px cyan, 0 0 12px cyan; }
+    }
   </style>
 </head>
 <body>
@@ -223,17 +253,20 @@
     <div class="scanning">[ SCANNING SYSTEM READY... ]</div>
 
     <div class="label">Dana</div>
-    <div class="input-box" id="dana">081222931196</div>
+    <div class="input-box" id="dana">xxxxxxxxxx</div>
     <button class="copy-btn" onclick="copyText('dana','notif-dana')">Copy Dana</button>
     <div class="notif" id="notif-dana"></div>
 
     <div class="label">GoPay</div>
-    <div class="input-box" id="gopay">081222931196</div>
+    <div class="input-box" id="gopay">xxxxxxxxxx</div>
     <button class="copy-btn" onclick="copyText('gopay','notif-gopay')">Copy GoPay</button>
     <div class="notif" id="notif-gopay"></div>
 
     <a href="https://wa.me/6281280305494" class="link wa">📱 WhatsApp</a>
     <a href="https://t.me/alwayzrymz" class="link tg">✉️ Telegram</a>
+
+    <!-- Watermark -->
+    <div class="watermark"><span>© 2025 Zyxxennn</span></div>
   </div>
 
   <script>
