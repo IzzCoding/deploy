@@ -17,7 +17,7 @@
       overflow: hidden;
     }
 
-    /* Grid Background bergerak */
+    /* Grid Background */
     body::before {
       content: "";
       position: fixed;
@@ -32,7 +32,6 @@
       animation: moveGrid 20s linear infinite;
       z-index: 0;
     }
-
     @keyframes moveGrid {
       from { transform: translate(0, 0); }
       to { transform: translate(-40px, -40px); }
@@ -74,7 +73,6 @@
       0% { box-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
       100% { box-shadow: 0 0 25px #0ea5ff, 0 0 40px #0ea5ff; }
     }
-
     @keyframes pulseText {
       0% { text-shadow: 0 0 10px #0ea5ff, 0 0 20px #0ea5ff; }
       100% { text-shadow: 0 0 20px #0ea5ff, 0 0 40px #0ea5ff; }
@@ -89,16 +87,10 @@
       display: block;
       margin-bottom: 10px;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #7dd3fc;
       text-shadow: 0 0 8px #0ea5ff;
-    }
-
-    .pay-box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px; /* biar lebih lega */
+      text-align: center;
     }
 
     .pay-number {
@@ -111,8 +103,8 @@
       color: #0ea5ff;
       text-shadow: 0 0 6px #0ea5ff;
       user-select: all;
-      min-width: 160px;
       text-align: center;
+      margin-bottom: 10px;
     }
 
     .copy-btn {
@@ -141,7 +133,7 @@
 
     .social-btn {
       display: block;
-      margin: 16px auto; /* jarak antar tombol sosmed lebih lega */
+      margin: 16px auto;
       padding: 14px;
       border-radius: 10px;
       font-weight: 600;
@@ -151,7 +143,6 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.6);
       width: 90%;
     }
-
     .wa-btn {
       background: #25D366;
       box-shadow: 0 0 20px #25D366;
@@ -161,7 +152,6 @@
       transform: translateY(-2px);
       box-shadow: 0 0 25px #1ebe5d;
     }
-
     .tg-btn {
       background: #0088cc;
       box-shadow: 0 0 20px #0088cc;
@@ -180,19 +170,15 @@
 
     <div class="pay-item">
       <span class="pay-label">Dana</span>
-      <div class="pay-box">
-        <div class="pay-number">081222931196</div>
-        <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
-      </div>
+      <div class="pay-number">081222931196</div>
+      <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
       <div class="copy-msg">📋 Copied!</div>
     </div>
 
     <div class="pay-item">
       <span class="pay-label">GoPay</span>
-      <div class="pay-box">
-        <div class="pay-number">081222931196</div>
-        <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
-      </div>
+      <div class="pay-number">081222931196</div>
+      <button class="copy-btn" onclick="copyText('081222931196', this)">Copy</button>
       <div class="copy-msg">📋 Copied!</div>
     </div>
 
@@ -203,7 +189,7 @@
   <script>
     function copyText(text, btn) {
       navigator.clipboard.writeText(text).then(() => {
-        let msg = btn.parentElement.nextElementSibling;
+        let msg = btn.nextElementSibling;
         msg.style.display = "block";
         setTimeout(() => { msg.style.display = "none"; }, 1500);
       });
